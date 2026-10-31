@@ -44,7 +44,7 @@ export async function setBrowserSourceUrl(inputName, url) {
   });
 }
 
-export async function setMatchupScores(matchups) {
+export async function setMatchupScores(matchups, azurafix=false) {
   const totals = matchups.reduce(
     (result, matchup) => {
       const leftScore = Number(matchup.leftScore);
@@ -59,5 +59,11 @@ export async function setMatchupScores(matchups) {
   await Promise.all([
     setText('scoreleft', String(totals.left)),
     setText('scoreright', String(totals.right)),
+    ...(azurafix
+      ? [
+          fixTracker('righttracker', 'player-select', 1921),
+          fixTracker('righttracker', 'players-chosen', 1921),
+        ]
+      : []),
   ]);
 }

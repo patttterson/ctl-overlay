@@ -24,7 +24,7 @@ const formatMatchupHistory = (matchups, bans, currentMatch) => {
   return `\`\`\`\n${currentMatch.type.replace(/\r?\n/g, ' ')}\n\n${banLines.join('\n')}\n\n${lines.join('\n')}\n\nFinal score: ${country(currentMatch.team1).toUpperCase()} (#${currentMatch.team1.seed || 'SEED'}) ${total('left')} - ${total('right')} ${country(currentMatch.team2).toUpperCase()} (#${currentMatch.team2.seed || 'SEED'})\n\`\`\``;
 };
 
-const MatchupHistoryConfig = ({ value, onChange, teamPlayerNames }) => {
+const MatchupHistoryConfig = ({ value, onChange, teamPlayerNames, azurafix, onAzurafixChange }) => {
   const [exportStatus, setExportStatus] = useState('');
 
   const exportHistory = async () => {
@@ -54,6 +54,14 @@ const MatchupHistoryConfig = ({ value, onChange, teamPlayerNames }) => {
           Copy to Clipboard
         </button>
         {exportStatus && <span role="alert">{exportStatus}</span>}
+        <label>
+          <input
+            type="checkbox"
+            checked={azurafix}
+            onChange={(event) => onAzurafixChange(event.target.checked)}
+          />{' '}
+          Azura fix
+        </label>
       </h3>
       <div className="matchup-teams-config">
         {Array.from({ length: 2 }, (_, teamIndex) => {

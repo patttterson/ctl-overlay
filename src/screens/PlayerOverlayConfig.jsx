@@ -137,6 +137,8 @@ const PlayerOverlayConfig = () => {
     matchupHistory,
   });
 
+  const [azurafix, setAzurafix] = useState(false);
+
   const changePlayerName = (teamIndex, playerIndex, name) => {
     const newPlayers = [...playerData].map((e) => [...e]);
     const oldName = newPlayers[teamIndex][playerIndex].name?.trim();
@@ -442,10 +444,10 @@ const PlayerOverlayConfig = () => {
     setMatchupScores([
       ...matchupHistory.matchups,
       { leftScore: gameScores[0], rightScore: gameScores[1] },
-    ]).catch((error) => {
+    ], azurafix).catch((error) => {
       console.error('Could not update OBS scores.', error);
     });
-  }, [obsConnection.status, matchupHistory.matchups, gameScores]);
+  }, [obsConnection.status, matchupHistory.matchups, gameScores, azurafix]);
 
   return (
     <div className="config-container">
@@ -742,6 +744,8 @@ const PlayerOverlayConfig = () => {
         value={matchupHistory}
         onChange={setMatchupHistory}
         teamPlayerNames={playerData.map((team) => team.map((player) => player.name?.trim() ?? ''))}
+        azurafix={azurafix}
+        onAzurafixChange={setAzurafix}
       />
       <button className="save-button" onClick={saveToLocalStorage}>
         {savedSnapshot !== null && currentSnapshot !== savedSnapshot
